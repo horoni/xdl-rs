@@ -10,6 +10,10 @@ unsafe extern "C" {
 	fn xdl_dsym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
 }
 
+const XDL_DEFAULT: i32 = 0x00;
+const XDL_TRY_FORCE_LOAD: i32 = 0x01;
+const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
+
 pub struct Xdl {
 	handle: *const c_void,
 }
@@ -21,7 +25,7 @@ impl Drop for Xdl {
 }
 
 impl Xdl {
-	pub fn open(filename: &str, flags: u32) -> Option<Self> {
+	pub fn open(filename: &str, flags: i32) -> Option<Self> {
 		let c_filename = CString::new(filename).ok()?;
 
 		let handle = unsafe { xdl_open(c_filename.as_ptr(), flags as c_int) };
@@ -29,7 +33,7 @@ impl Xdl {
 		if handle.is_null() { None } else { Some(Self { handle }) }
 	}
 
-	pub fn open_poll(filename: &str, flags: u32, max_attempts: u32) -> Option<Self> {
+	pub fn open_poll(filename: &str, flags: i32, max_attempts: u32) -> Option<Self> {
 		for _ in 0..max_attempts {
 			if let Some(hndl) = Self::open(filename, flags) {
 				return Some(hndl);
