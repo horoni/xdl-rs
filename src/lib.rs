@@ -17,13 +17,13 @@ const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
 
 #[repr(C)]
 pub struct XdlInfo {
-	dli_fname: *const c_char,  // Pathname of shared object that contains address.
-	dli_fbase: *mut c_void,    // Address at which shared object is loaded.
-	dli_sname: *const c_char,  // Name of nearest symbol with address lower than addr.
-	dli_saddr: *mut c_void,    // Exact address of symbol named in dli_sname.
-	dli_ssize: usize,          // Symbol size of nearest symbol with address lower than addr.
-	dlpi_phdr: *const c_void,  // Pointer to array of ELF program headers for this object.
-	dlpi_phnum: usize,         // Number of items in dlpi_phdr.
+	pub dli_fname: *const c_char,  // Pathname of shared object that contains address.
+	pub dli_fbase: *mut c_void,    // Address at which shared object is loaded.
+	pub dli_sname: *const c_char,  // Name of nearest symbol with address lower than addr.
+	pub dli_saddr: *mut c_void,    // Exact address of symbol named in dli_sname.
+	pub dli_ssize: usize,          // Symbol size of nearest symbol with address lower than addr.
+	pub dlpi_phdr: *const c_void,  // Pointer to array of ELF program headers for this object.
+	pub dlpi_phnum: usize,         // Number of items in dlpi_phdr.
 }
 
 pub struct Xdl {
