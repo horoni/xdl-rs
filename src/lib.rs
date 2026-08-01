@@ -12,9 +12,9 @@ unsafe extern "C" {
 	pub fn xdl_addr_clean(cache: *mut *mut c_void);
 }
 
-const XDL_DEFAULT: i32 = 0x00;
-const XDL_TRY_FORCE_LOAD: i32 = 0x01;
-const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
+pub const XDL_DEFAULT: i32 = 0x00;
+pub const XDL_TRY_FORCE_LOAD: i32 = 0x01;
+pub const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
 
 #[repr(C)]
 pub struct XdlInfo {
