@@ -8,11 +8,23 @@ unsafe extern "C" {
 	fn xdl_close(handle: *const c_void);
 	fn xdl_sym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
 	fn xdl_dsym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
+	pub fn xdl_addr(addr: *const c_void, info: *mut XdlInfo, cache: *mut *mut c_void) -> c_int;
 }
 
 const XDL_DEFAULT: i32 = 0x00;
 const XDL_TRY_FORCE_LOAD: i32 = 0x01;
 const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
+
+#[repr(C)]
+pub struct XdlInfo {
+	dli_fname: *const c_char,  // Pathname of shared object that contains address.
+	dli_fbase: *mut c_void,    // Address at which shared object is loaded.
+	dli_sname: *const c_char,  // Name of nearest symbol with address lower than addr.
+	dli_saddr: *mut c_void,    // Exact address of symbol named in dli_sname.
+	dli_ssize: usize,          // Symbol size of nearest symbol with address lower than addr.
+	dlpi_phdr: *const c_void,  // Pointer to array of ELF program headers for this object.
+	dlpi_phnum: usize,         // Number of items in dlpi_phdr.
+}
 
 pub struct Xdl {
 	handle: *const c_void,
