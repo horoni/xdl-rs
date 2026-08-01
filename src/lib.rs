@@ -9,6 +9,7 @@ unsafe extern "C" {
 	fn xdl_sym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
 	fn xdl_dsym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
 	pub fn xdl_addr(addr: *const c_void, info: *mut XdlInfo, cache: *mut *mut c_void) -> c_int;
+	pub fn xdl_addr_clean(cache: *mut *mut c_void);
 }
 
 const XDL_DEFAULT: i32 = 0x00;
