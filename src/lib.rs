@@ -10,11 +10,25 @@ unsafe extern "C" {
 	fn xdl_dsym(handle: *const c_void, sym: *const c_char, sym_size: *mut usize) -> *mut c_void;
 	pub fn xdl_addr(addr: *const c_void, info: *mut XdlInfo, cache: *mut *mut c_void) -> c_int;
 	pub fn xdl_addr_clean(cache: *mut *mut c_void);
+	pub fn xdl_iterate_phdr(
+		callback: extern "C" fn(*mut DlPhdrInfo, usize, *mut c_void) -> c_int,
+		data: *mut c_void, flags: c_int,
+	) -> c_int;
 }
 
 pub const XDL_DEFAULT: i32 = 0x00;
 pub const XDL_TRY_FORCE_LOAD: i32 = 0x01;
 pub const XDL_ALWAYS_FORCE_LOAD: i32 = 0x02;
+
+pub const XDL_FULL_PATHNAME: i32 = 0x01;
+
+#[repr(C)]
+pub struct DlPhdrInfo {
+	pub dlpi_addr: usize,
+	pub dlpi_name: *const c_char,
+	pub dlpi_phdr: *const c_void,
+	pub dlpi_phnum: u16,
+}
 
 #[repr(C)]
 pub struct XdlInfo {
